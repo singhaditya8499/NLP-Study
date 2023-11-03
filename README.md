@@ -172,3 +172,97 @@ Text normalization involves standardizing text by converting it to the same case
 ### POS tagging
 
 Part-of-speech tagging identifies the grammatical category (noun, verb, adjective, etc.) of each word in a sentence. It is valuable for understanding sentence structure and aids in tasks like named entity recognition and question answering.
+
+
+## Tokenizer
+
+Breaking down of the data in its lowest form is called tokenization. The smallest unit is called token. These are the input units to the BERT algorithm.
+
+### Ways for tokenization
+
+1. Remove spaces between the words
+2. Add special characters between the words
+3. Split the string using the spaces
+
+Since computer cant understand the text, it is important to represent these words as vectors. These vectors store the syntactic and semantic information about the words.
+
+Subword tokenization is the tokenization on the next level. Most of the words are made of the suffixes and prefixes, these constitute OOV(out of vocabulary) words. Words like anytime can be broken to "any" and "time" which reduces the compelxity of the data and helps in understand of the text in detail.
+
+Below are the main algorithms for sub word tokenization:
+
+### Byte pair encoding
+
+The process is used to tokenize the words that are morphologically rich and have complex language structure. The process looks for adjacent characters that occurs frequently and forms a word pair out of it. This happens for a number of iteration or until some conditions are met. These new words are then used to tokenize the original textual data we have. 
+
+### Wordpiece
+
+The WordPiece algorithm is a subword tokenization technique commonly used in natural language processing (NLP) and machine learning, particularly in models like BERT. WordPiece tokenization breaks down words into smaller subword units to handle complex languages, morphology, and unseen words effectively. Here's how the WordPiece algorithm works:
+
+1. **Initialization**: Start with a basic vocabulary that includes individual characters, special symbols (e.g., [CLS] and [SEP] for BERT), and a few whole words. The vocabulary can be quite small initially.
+
+2. **Tokenization**: Begin by splitting text into individual characters or subword units. The goal is to represent text as a sequence of these smaller units.
+
+3. **Training**: The WordPiece algorithm iteratively updates the vocabulary to include frequently occurring subword units. Here's how this process typically works:
+   
+   a. **Frequency Analysis**: Analyze a training corpus to identify the most frequent subword units.
+   
+   b. **Merging**: Merge the most frequent subword units into a single new token. For example, if "un" and "breakable" are frequent, they might be merged into "unbreakable."
+   
+   c. **Update Vocabulary**: Add the newly merged token to the vocabulary.
+
+4. **Repeat**: Steps 3a-3c are repeated for a set number of iterations or until a predefined stopping condition is met.
+
+5. **Final Vocabulary**: After the training process is complete, you have a vocabulary that includes not only individual characters but also subword units that represent frequently occurring character combinations and subwords.
+
+6. **Tokenization with Final Vocabulary**: During text tokenization for NLP tasks, the WordPiece algorithm uses the final vocabulary to segment text into subword units. This allows the model to handle complex words and out-of-vocabulary words effectively.
+
+The WordPiece algorithm is flexible and adapts to the specific language and text data it is applied to. It is particularly useful for languages with complex morphologies, compound words, and agglutinative languages, where breaking down words into subword units helps in handling unseen or rare words. It is commonly used in transformer-based models like BERT and GPT-2, contributing to their effectiveness in various NLP tasks.
+
+
+### Unigram subword tokenization
+
+Unigram subword tokenization is a technique used in natural language processing (NLP) for breaking down words into their individual character-level components. Unlike other subword tokenization methods, unigram subword tokenization treats each character as a separate token. Here's how it works:
+
+1. **Character-Level Tokenization**: In unigram subword tokenization, each character in a word is considered as a separate token. For example, the word "apple" would be tokenized into five tokens: 'a', 'p', 'p', 'l', 'e'.
+
+2. **No Merging or Combinations**: Unlike other subword tokenization methods like WordPiece or Byte Pair Encoding (BPE), unigram subword tokenization does not involve merging characters or creating subword units. Each character stands on its own as an individual token.
+
+3. **Use Cases**:
+   - Unigram subword tokenization can be helpful in certain situations, especially for languages with simple morphologies and phonetic languages where characters often represent individual syllables or phonemes.
+   - It is less common in modern NLP models compared to techniques like BPE or WordPiece, but it can be used in specific scenarios where character-level analysis is required.
+
+4. **Advantages and Disadvantages**:
+   - Advantages:
+     - It preserves the integrity of individual characters, which can be useful in scenarios where character-level information is crucial, such as handwriting recognition or certain linguistic analyses.
+     - It can be applied to languages with straightforward character-to-sound correspondence.
+   - Disadvantages:
+     - For many NLP tasks and languages, it results in an extremely large vocabulary, making it less practical in terms of memory and computational resources.
+     - It doesn't handle complex word structures or morphological variations as effectively as other subword tokenization methods.
+
+In summary, unigram subword tokenization treats each character in a word as a separate token. It has its uses, particularly in languages with simple morphologies or when fine-grained character-level analysis is necessary. However, it is less common in modern NLP models compared to other subword tokenization methods that create subword units for better handling of complex languages and word structures.
+
+### SentencePiece
+
+SentencePiece is a subword tokenization algorithm that's widely used in natural language processing (NLP) and text processing tasks. It's designed to segment text into subword units, making it useful for various languages, especially those with complex word structures and character-based writing systems. Here's how the SentencePiece algorithm works:
+
+1. **Initialization**: Start with a basic vocabulary that typically includes individual characters, special symbols, and a few whole words. The vocabulary can be quite small initially.
+
+2. **Training**: SentencePiece doesn't rely on specific linguistic knowledge or pre-existing word lists. Instead, it uses a statistical approach to analyze a training corpus of text data.
+
+3. **Subword Segmentation**: SentencePiece applies an unsupervised subword segmentation algorithm to identify and group frequently co-occurring characters, character sequences, and subword units in the training data.
+
+4. **Subword Units**: It creates a vocabulary of subword units, which can include character sequences, whole words, and more, based on their frequency in the training data. These subword units are used to tokenize text into meaningful pieces.
+
+5. **Tokenization**: During tokenization for NLP tasks, the SentencePiece algorithm uses the vocabulary of subword units to segment text into these units. For example, the word "unbreakable" might be segmented into "un," "break," and "able."
+
+6. **Flexibility**: SentencePiece allows for different tokenization strategies, including subword units that span characters or longer subword sequences. It can also handle languages with complex morphology and character-based writing systems effectively.
+
+7. **Integration**: SentencePiece is often used in various NLP models, including BERT and other transformers, as it offers flexibility in handling subword tokenization and helps in representing words and subword units effectively.
+
+SentencePiece is valuable in NLP for several reasons:
+
+- It dynamically adapts to the specific language and data, making it suitable for languages with complex morphologies.
+- It can represent out-of-vocabulary words and handle unseen or rare words effectively.
+- It offers flexibility in choosing the granularity of subword units, making it adaptable to different NLP tasks and languages.
+
+Overall, SentencePiece is a versatile and powerful subword tokenization algorithm that enhances the handling of text data in NLP tasks by segmenting it into meaningful subword units.
