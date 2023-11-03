@@ -266,3 +266,19 @@ SentencePiece is valuable in NLP for several reasons:
 - It offers flexibility in choosing the granularity of subword units, making it adaptable to different NLP tasks and languages.
 
 Overall, SentencePiece is a versatile and powerful subword tokenization algorithm that enhances the handling of text data in NLP tasks by segmenting it into meaningful subword units.
+
+
+## Sampling
+
+These are the techniques that are used to select a subset of the data for the task. The requirement is that the subset of the data should represent the original population. The selected sub dataset is called a sample. There are different ways of sampling which are mentioned below:
+
+1. **Random sampling**: Select a subset in a pure random fashion
+2. **Systematic sampling**: Choose the subset of data in a systematic manner at a regular interval
+3. **Stratified sampling**: Population is divided into homogenous groups and then sampling is done from those groups to represent the original population
+4. **Cluster sampling**: Data is divided into clusters and pure random sampling is done over clusters to select the subset
+5. **Multistage sampling**: Apply different sampling techiques together
+6. **Quota sampling**: Non probabilistic method where sub population is selcted based on their representation of the real population
+7. **Convenience sampling**: Data collection from population members, non probablistic method
+8. **Snowball sampling**: Existing popualation recruit future subjects probably their acquiantances
+
+Sampling is a very important step as it will directly impact the model to which the sampled data will be fed.
