@@ -282,3 +282,93 @@ These are the techniques that are used to select a subset of the data for the ta
 8. **Snowball sampling**: Existing popualation recruit future subjects probably their acquiantances
 
 Sampling is a very important step as it will directly impact the model to which the sampled data will be fed.
+
+
+## Token Sampling (Source: [Link](https://aman.ai/primers/ai/token-sampling/) )
+
+Token sampling is one of the key techniques which the language models use to generate the next token. We already know that language model works just to generate the next probabilistically best token. There are several ways in which that can be done. Before that we will look at few key terminalogies:
+
+### Key terms used
+
+**Autoregressive Decoding:**
+- Begin with a textual prefix/prompt.
+- Generate the next token using the language model.
+- Add the output token to the input sequence.
+- Repeat this process to generate the entire textual sequence.
+
+**Token Probabilities:**
+- Language models output a probability distribution over all possible tokens.
+- They function as neural networks solving a classification problem over the vocabulary.
+- Strategies for selecting the next token include greedy decoding, choosing the token with the highest probability.
+
+**Logits and Softmax:**
+- Language models produce logits (z) and use the softmax function to generate a probability distribution (q).
+- Softmax normalizes logits, ensuring values are between zero and one, making them interpretable as probabilities.
+
+**Related: Temperature:**
+- Temperature is a hyperparameter affecting token sampling.
+- It adjusts the probability distribution over tokens.
+- Higher temperature increases randomness and diversity in predictions but may lead to more mistakes.
+- Lower temperature makes the model more conservative and focused.
+
+**Temperature in Softmax:**
+- Temperature (T) is a parameter in the softmax function.
+- For T=1, softmax is directly computed on logits.
+- A lower temperature (e.g., 0.6) results in a more confident but conservative model.
+- Higher temperature produces a softer distribution, making the model more easily excited and diverse.
+
+**Impact of Temperature:**
+- Higher temperature increases sensitivity to low probability candidates.
+- Output can be a letter, word, pixel, etc., depending on the task.
+- High temperature leads to nearly equal probabilities, low temperature prioritizes the sample with the highest expected reward.
+
+### Key token sampling techniques
+
+**Greedy Decoding:**
+- Selects the output with the highest probability at each decoding step.
+- May produce suboptimal results as it lacks the ability to rectify earlier mistakes in the sequence.
+- Efficient but not always the best choice due to its myopic decision-making.
+
+**Exhaustive Search Decoding:**
+- Considers every possible output sequence, choosing the one with the highest score.
+- Computationally intensive and impractical for real-world applications.
+- Time complexity of O(V(T)), where V is vocab size and T is sequence length.
+
+**Beam Search:**
+- Efficient algorithm exploring multiple possibilities.
+- Maintains k most probable partial candidates (beam size) at each decoding step.
+- Not guaranteed to find the optimal solution but more practical than exhaustive search.
+
+**Constrained Beam Search:**
+- Adds constraints to generated sequences to meet specific criteria.
+- Modifies traditional beam search by incorporating constraints.
+- Ensures valid sequences while maintaining diversity and fluency.
+- Commonly used in tasks like text summarization, machine translation, and dialogue generation.
+
+**Top-k:**
+- Samples from a shortlist of top k tokens.
+- Balances diversity and control in output.
+- Higher k values result in increased diversity and less control.
+- Suitable for text generation and conversational AI.
+
+**Top-p (Nucleus Sampling):**
+- Dynamically sets the size of the shortlist of tokens based on a threshold p.
+- Chooses from the smallest set whose cumulative probability does not exceed p.
+- Offers a balance between diversity and control.
+- Controlled by setting the top-p parameter in language model APIs.
+
+### Additional points
+
+**Nucleus Sampling:**
+- Useful for tasks requiring fine-grained control over diversity and fluency, like language modeling and text summarization.
+- Top-p sets a threshold to limit the long tail of low probability tokens (often set around 75%).
+- Dynamically adjusts the number of tokens considered during decoding based on their probabilities.
+- Can be used simultaneously with top-k, with top-p applied after top-k.
+- Provides flexibility in controlling the randomness of a language model's output.
+
+**Nucleus Sampling vs. Temperature:**
+- Nucleus sampling and temperature are distinct methods for controlling randomness in a language model's output.
+- In the GPT-3 API, nucleus sampling and temperature cannot be used together.
+- Temperature influences the softmax function, adjusting the overall randomness of predictions.
+- Nucleus sampling, on the other hand, dynamically adjusts the number of tokens considered based on their probabilities.
+- Choose between nucleus sampling and temperature based on the desired control over randomness in the model's output.
